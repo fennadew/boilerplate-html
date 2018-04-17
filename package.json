@@ -2,7 +2,7 @@
   "name": "boilerplate-html",
   "version": "1.0.0",
   "description": "Boilerplate HTML, SCSS, ES6 with Gulp",
-  "main": "index.js",
+  "main": "dist/bundle.min.js",
   "scripts": {
     "start": "gulp",
     "build": "gulp build"
