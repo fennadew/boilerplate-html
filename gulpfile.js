@@ -85,9 +85,10 @@ gulp.task('optimize-images', () => {
 });
 
 gulp.task('watch', () => {
-    gulp.watch(config.styleSrc + '**/*.scss', ['sass'])
+    gulp.watch(config.styleSrc + '**/*.scss', ['sass']);
     gulp.watch([config.rootSrc + '*.html'], ['html']);
-    gulp.watch(config.styleSrc + '**/*.js', ['js'])
+    gulp.watch(config.jsSrc + '**/*.js', ['js']);
+    gulp.watch(config.imgSrc + '**/*', ['optimize-images']);
 });
 
 gulp.task('build', ['sass', 'js', 'optimize-images']);
