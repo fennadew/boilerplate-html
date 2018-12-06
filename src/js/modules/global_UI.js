@@ -1,6 +1,6 @@
- export class Global_UI {
-     constructor() {
-     console.log("test");
-     }
+ export default class Global_UI {
+    constructor() {
+      console.log("test");
+    }
  }
 

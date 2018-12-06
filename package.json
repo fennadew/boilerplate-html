@@ -1,11 +1,11 @@
 {
   "name": "boilerplate-html",
   "version": "1.0.0",
-  "description": "Boilerplate HTML, SCSS, ES6 with Gulp",
+  "description": "Boilerplate HTML, SCSS, ES6 with Webpack",
   "main": "dist/bundle.min.js",
   "scripts": {
-    "start": "gulp",
-    "build": "gulp build"
+    "dev": "webpack --mode development --watch",
+    "build": "webpack --mode production --watch"
   },
   "repository": {
     "type": "git",
@@ -19,24 +19,21 @@
   },
   "homepage": "https://github.com/fennadew/boilerplate-html#readme",
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "babelify": "^8.0.0",
-    "browserify": "^16.2.0",
-    "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^5.0.0",
-    "gulp-connect": "^5.5.0",
-    "gulp-imagemin": "^4.1.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-sass": "^4.0.1",
-    "gulp-sourcemaps": "^2.6.4",
-    "gulp-uglify": "^3.0.0",
-    "vinyl-buffer": "^1.0.1",
-    "vinyl-source-stream": "^2.0.0"
+    "@babel/cli": "^7.2.0",
+    "@babel/core": "^7.2.0",
+    "@babel/node": "^7.2.0",
+    "@babel/preset-env": "^7.2.0",
+    "@babel/register": "^7.0.0",
+    "babel-loader": "^8.0.4",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.4.3",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10"
   },
-  "babel": {
-    "presets": [
-      "env"
-    ]
+  "dependencies": {
+    "css-loader": "^1.0.1",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1"
   }
 }
