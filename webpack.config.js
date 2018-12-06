@@ -3,29 +3,26 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const fs = require('fs')
-
-function generateHtmlPlugins() {
-  const templateFiles = fs.readdirSync(path.resolve(__dirname, ''))
-  return templateFiles.map(item => {
-    const parts = item.split('.')
-    const name = parts[0]
-    const extension = parts[1]
-    if (extension === 'html') {
-      return new HtmlWebpackPlugin({
-        filename: `${name}.html`,
-        template: path.resolve(__dirname, `/${name}.${extension}`)
-      })
-    }
-  })
-}
-
-const htmlPlugins = generateHtmlPlugins()
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const devMode = process.env.NODE_ENV !== 'production'
 
 module.exports = {
   entry: { main: './src/js/app.js' },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js'
+  },
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true 
+      }),
+      new OptimizeCSSAssetsPlugin({})
+    ]
   },
   module: {
     rules: [
@@ -39,12 +36,8 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [
-          process.env.NODE_ENV !== 'production' ? 'style-loader' : MiniCssExtractPlugin.loader, {
-          loader: 'css-loader', options: {
-            modules: true,
-            sourceMap: true,
-          }
-        }, { 
+          devMode ? 'style-loader' : MiniCssExtractPlugin.loader, 
+          { 
           loader: 'css-loader', options: {
             sourceMap: true
           }
@@ -57,6 +50,7 @@ module.exports = {
     ]
   },
   plugins: [ 
+    new CleanWebpackPlugin('dist', {} ),
     new HtmlWebpackPlugin({
       inject: false,
       hash: true,
@@ -64,8 +58,27 @@ module.exports = {
       filename: 'index.html'
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css'
+      filename: devMode ? '[name].css' : '[name].[hash].css',
+      chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
     })
   ]
 };
+
+
+
+// function generateHtmlPlugins() {
+//   const templateFiles = fs.readdirSync(path.resolve(__dirname, ''))
+//   return templateFiles.map(item => {
+//     const parts = item.split('.')
+//     const name = parts[0]
+//     const extension = parts[1]
+//     if (extension === 'html') {
+//       return new HtmlWebpackPlugin({
+//         filename: `${name}.html`,
+//         template: path.resolve(__dirname, `/${name}.${extension}`)
+//       })
+//     }
+//   })
+// }
+
+// const htmlPlugins = generateHtmlPlugins()
